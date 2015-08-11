@@ -160,13 +160,26 @@ angular.module("oauth.providers", ["oauth.utils"])
                 if(window.cordova) {
                     var cordovaMetadata = cordova.require("cordova/plugin_list").metadata;
                     if($cordovaOauthUtility.isInAppBrowserInstalled(cordovaMetadata) === true) {
-                        var redirect_uri = "http://localhost/callback";
+                        var redirect_uri = "http://localhost/callback",
+                            clearsessioncache = 'yes',
+                            clearcache = 'yes',
+                            approval_prompt = 'force';
                         if(options !== undefined) {
                             if(options.hasOwnProperty("redirect_uri")) {
                                 redirect_uri = options.redirect_uri;
                             }
+                            if(options.hasOwnProperty("clearsessioncache")) {
+                                clearsessioncache = options.clearsessioncache;
+                            }
+                            if(options.hasOwnProperty("clearcache")) {
+                                clearcache = options.clearcache;
+                            }
+                            if(options.hasOwnProperty("approval_prompt")) {
+                                approval_prompt = options.approval_prompt;
+                            }
+
                         }
-                        var browserRef = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=' + redirect_uri + '&scope=' + appScope.join(" ") + '&approval_prompt=force&response_type=token', '_blank', 'location=no,clearsessioncache=yes,clearcache=yes');
+                        var browserRef = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=' + redirect_uri + '&scope=' + appScope.join(" ") + '&approval_prompt=' + approval_prompt + '&response_type=token', '_blank', 'location=no,clearsessioncache=' + clearsessioncache + ',clearcache=' + clearcache);
                         browserRef.addEventListener("loadstart", function(event) {
                             if((event.url).indexOf(redirect_uri) === 0) {
                            		browserRef.removeEventListener("exit",function(event){});
