@@ -177,7 +177,6 @@ angular.module("oauth.providers", ["oauth.utils"])
                             if(options.hasOwnProperty("approval_prompt")) {
                                 approval_prompt = options.approval_prompt;
                             }
-
                         }
                         var browserRef = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=' + redirect_uri + '&scope=' + appScope.join(" ") + '&approval_prompt=' + approval_prompt + '&response_type=token', '_blank', 'location=no,clearsessioncache=' + clearsessioncache + ',clearcache=' + clearcache);
                         browserRef.addEventListener("loadstart", function(event) {
